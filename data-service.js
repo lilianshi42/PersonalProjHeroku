@@ -24,22 +24,28 @@ module.exports.intialize = function () {
 
 module.exports.getAllEmployees = function () {
   return new Promise((resolve, reject) => {
+    if(employees.length == 0) {
+      reject("no results returned");
+    }
     resolve(employees);
-    reject("no results returned");
   });
 };
 
 module.exports.getManagers = function () {
   const managers = employees.filter((employees) => employees.isManager == true);
   return new Promise((resolve, reject) => {
+    if(managers.length == 0){
+      reject("no results returned");
+    }
     resolve(managers);
-    reject("no results returned");
   });
 };
 
 module.exports.getDepartment = function () {
   return new Promise((resolve, reject) => {
+    if(departments.length == 0){
+      reject("no results returned");
+    }
     resolve(departments);
-    reject("no results returned");
   });
 };

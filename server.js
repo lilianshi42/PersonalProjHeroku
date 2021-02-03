@@ -3,7 +3,7 @@
 *  I declare that this assignment is my own work in accordance with Seneca  Academic Policy.  No part *  of this assignment has been copied manually or electronically from any other source 
 *  (including 3rd party web sites) or distributed to other students.
 * 
-*  Name: ___Lilian Shi________ Student ID: __109261206____ Date: ___02/02/2021___
+*  Name: ___Lilian Shi________ Student ID: __109261206____ Date: ___02/03/2021___
 *
 *  Online (Heroku) Link: _____https://young-bayou-38535.herokuapp.com/___________
 *
@@ -21,7 +21,7 @@ function onHTTPStart(){
     console.log("Express http server listening on port " + HTTP_PORT);
 }
 
-app.use(express.static('public')); 
+app.use(express.static('/public')); 
 app.use('/public/css', express.static(__dirname + '/public/css'));
 
  
