@@ -74,4 +74,3 @@ dataService.intialize()
     .catch((error)=>{
     console.log(error);
 });
-  

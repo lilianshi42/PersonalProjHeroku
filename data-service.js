@@ -5,29 +5,21 @@ const empFile = "./data/employees.json";
 const depFile = "./data/departments.json";
 
 module.exports.intialize = function () {
-  //Define a function reads employees.json file and parse to array
-  function readEmp() {
-    return new Promise((resolve, reject) => {
-      fs.readFile(empFile, (err, empData) => {
-        if (err) reject("unable to read file");
-        else employees = JSON.parse(empData);
-        resolve(employees);
-      });
+  return new Promise((resolve, reject) => {
+    //read employees.json file and parse to array first
+    fs.readFile(empFile, (err, empData) => {
+      if (err) reject("unable to read file");
+      else {
+        employees = JSON.parse(empData);
+        //only whem employees data successfully read, read departments.json file and parse to array
+        fs.readFile(depFile, (err, depData) => {
+          if (err) reject("unable to read file");
+          else departments = JSON.parse(depData);
+          resolve();
+        });
+      }
     });
-  }
-  //Define a function reads departments.json file and parse to array
-  function readDep() {
-    return new Promise((resolve, reject) => {
-      fs.readFile(depFile, (err, depData) => {
-        if (err) reject("unable to read file");
-        else departments = JSON.parse(depData);
-        resolve(departments);
-      });
-    });
-  }
-
-  //Read employees data first and then departments data
-  return(readEmp().then(readDep));
+  });
 };
 
 module.exports.getAllEmployees = function () {
