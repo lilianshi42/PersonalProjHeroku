@@ -1,3 +1,14 @@
+/*********************************************************************************
+*  WEB322 – Assignment 02
+*  I declare that this assignment is my own work in accordance with Seneca  Academic Policy.  No part *  of this assignment has been copied manually or electronically from any other source 
+*  (including 3rd party web sites) or distributed to other students.
+* 
+*  Name: ___Lilian Shi________ Student ID: __109261206____ Date: ___02/02/2021___
+*
+*  Online (Heroku) Link: ________________________________________________________
+*
+********************************************************************************/ 
+
 var express = require("express");
 var app = express();
 var path = require("path");
@@ -51,9 +62,8 @@ app.get("/departments", function(req, res){
 });
 
 app.use((req, res) =>{
-    res.status(404).send("404 Page Not Found");
+    res.status(404).sendFile(path.join(__dirname, "/views/404page.html"));
 });
-
 
 dataService.intialize()
     .then(()=>{
