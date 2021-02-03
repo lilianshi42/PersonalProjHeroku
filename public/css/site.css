@@ -1,0 +1,27 @@
+body {
+    background-color: rgb(253, 239, 237);
+}
+.container-fluid{
+    background-color:ivory;
+}
+.navbar-brand{
+    font-family: 'Fahkwang', sans-serif;
+    font-weight: bold;
+}
+li{
+    font-family: 'Fahkwang', sans-serif;
+    font-size: 1.5em;
+}
+h2{
+    font-family: 'Montserrat Subrayada', sans-serif;
+    font-weight: bold;
+    color: rgb(194, 120, 112);
+}
+p{
+    font-family: 'Raleway', sans-serif;
+    color: darkslategrey;
+}
+aside p{
+    font-size: 1.2em;
+    font-style: italic;
+}
