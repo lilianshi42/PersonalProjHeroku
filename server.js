@@ -22,6 +22,8 @@ function onHTTPStart(){
 }
 
 app.use(express.static('public')); 
+app.use('/public/css', express.static(__dirname + '/public/css'));
+
  
 app.get("/", function (req, res) {
     res.sendFile(path.join(__dirname, "/views/home.html"));
