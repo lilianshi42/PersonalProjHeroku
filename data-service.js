@@ -1,6 +1,6 @@
 var employees = [];
 var departments = [];
-var fs = require("fs");
+const fs = require("fs");
 const empFile = "./data/employees.json";
 const depFile = "./data/departments.json";
 
@@ -24,28 +24,70 @@ module.exports.intialize = function () {
 
 module.exports.getAllEmployees = function () {
   return new Promise((resolve, reject) => {
-    if(employees.length == 0) {
-      reject("no results returned");
-    }
-    resolve(employees);
+    if (employees.length == 0) reject("no results returned");
+    else resolve(employees);
   });
 };
 
 module.exports.getManagers = function () {
-  const managers = employees.filter((employees) => employees.isManager == true);
+  var managers = employees.filter((employee) => employee.isManager == true);
   return new Promise((resolve, reject) => {
-    if(managers.length == 0){
-      reject("no results returned");
-    }
-    resolve(managers);
+    if (managers.length == 0) reject("no results returned");
+    else resolve(managers);
   });
 };
 
 module.exports.getDepartment = function () {
   return new Promise((resolve, reject) => {
-    if(departments.length == 0){
-      reject("no results returned");
+    if (departments.length == 0) reject("no results returned");
+    else resolve(departments);
+  });
+};
+
+module.exports.addEmployee = function (employeeData) {
+  return new Promise((resolve, reject) => {
+    employeeData.employeeNum = employees.length + 1;
+    employeeData.isManager = employeeData.isManager ? true : false;
+    employees.push(employeeData);
+    resolve();
+  });
+};
+
+module.exports.getEmployeesByStatus = function (status) {
+  var filteredEmps = employees.filter((employee) => employee.status == status);
+  return new Promise((resolve, reject) => {
+    if (filteredEmps.length == 0) reject("no results returned");
+    else resolve(filteredEmps);
+  });
+};
+
+module.exports.getEmployeesByDepartment = function (departmentNum) {
+  var filteredEmps = employees.filter(
+    (employee) => employee.department == departmentNum
+  );
+  return new Promise((resolve, reject) => {
+    if (filteredEmps.length == 0) reject("no results returned");
+    else resolve(filteredEmps);
+  });
+};
+
+module.exports.getEmployeesByManager = function (managerNum) {
+  var filteredEmps = employees.filter(
+    (employee) => employee.employeeManagerNum == managerNum
+  );
+  return new Promise((resolve, reject) => {
+    if (filteredEmps.length == 0) reject("no results returned");
+    else resolve(filteredEmps);
+  });
+};
+
+module.exports.getEmployeeByNum = function (empNum) {
+  return new Promise((resolve, reject) => {
+    var foundEmp = null;
+    for (let i = 0; i < employees.length && !foundEmp; i++) {
+      if (employees[i].employeeNum == empNum) foundEmp = employees[i];
     }
-    resolve(departments);
+    if (!foundEmp) reject("no results returned");
+    else resolve(foundEmp);
   });
 };
