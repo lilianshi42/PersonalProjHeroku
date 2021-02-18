@@ -3,7 +3,7 @@
  *  I declare that this assignment is my own work in accordance with Seneca  Academic Policy.  No part *  of this assignment has been copied manually or electronically from any other source
  *  (including 3rd party web sites) or distributed to other students.
  *
- *  Name: ___Lilian Shi________ Student ID: __109261206____ Date: ___02/17/2021___
+ *  Name: ___Lilian Shi________ Student ID: __109261206____ Date: ___02/18/2021___
  *
  *  Online (Heroku) Link: __https://lilianshi-web-project.herokuapp.com/___
  *
@@ -79,6 +79,8 @@ app.set("view engine", ".hbs");
 
 app.use(express.static("/public"));
 app.use("/public/css", express.static(__dirname + "/public/css"));
+app.use("/public/images", express.static(__dirname + "/public/images"));
+
 app.use(bodyParser.urlencoded({ extended: true }));
 //add the property "activeRoute" to "app.locals" whenever route changes
 app.use(function (req, res, next) {

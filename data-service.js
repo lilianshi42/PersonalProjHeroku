@@ -92,6 +92,8 @@ module.exports.getEmployeeByNum = function (empNum) {
   });
 };
 
+
+//function to find employee by ID and save updated employee data
 module.exports.updateEmployee = function (employeeData) {
   return new Promise((resolve, reject) => {
     let found = false;
