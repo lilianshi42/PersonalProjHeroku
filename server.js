@@ -1,9 +1,9 @@
 /*********************************************************************************
- *  WEB322 – Assignment 03
+ *  WEB322 – Assignment 04
  *  I declare that this assignment is my own work in accordance with Seneca  Academic Policy.  No part *  of this assignment has been copied manually or electronically from any other source
  *  (including 3rd party web sites) or distributed to other students.
  *
- *  Name: ___Lilian Shi________ Student ID: __109261206____ Date: ___02/14/2021___
+ *  Name: ___Lilian Shi________ Student ID: __109261206____ Date: ___02/17/2021___
  *
  *  Online (Heroku) Link: __https://lilianshi-web-project.herokuapp.com/___
  *
@@ -14,6 +14,7 @@ const app = express();
 const path = require("path");
 const multer = require("multer"); //for images
 const bodyParser = require("body-parser"); //non-images
+const exphbs = require("express-handlebars"); //use handlebars
 const dataService = require("./data-service.js");
 const fs = require("fs");
 
@@ -39,16 +40,59 @@ const storage = multer.diskStorage({
 // tell multer to use the diskStorage function for naming files instead of the default.
 const upload = multer({ storage: storage });
 
+//for handlebars
+app.engine(
+  ".hbs",
+  exphbs({
+    extname: ".hbs",
+    defaultLayout: "main",
+    helpers: {
+      /*This helper allows us to replace all of our existing navbar links, 
+      ie: <li><a href="/about">About</a></li> with code that looks like this 
+      {{#navLink "/about"}}About{{/navLink}}. */
+      navLink: function (url, options) {
+        return (
+          "<li" +
+          (url == app.locals.activeRoute ? ' class="active" ' : "") +
+          '><a href="' +
+          url +
+          '">' +
+          options.fn(this) +
+          "</a></li>"
+        );
+      },
+      /*This helper will give us the ability to evaluate conditions for equality, 
+      ie {{#equals "a" "a"}} … {{/equals}} will render the contents */
+      equal: function (lvalue, rvalue, options) {
+        if (arguments.length < 3)
+          throw new Error("Handlebars Helper equal needs 2 parameters");
+        if (lvalue != rvalue) {
+          return options.inverse(this);
+        } else {
+          return options.fn(this);
+        }
+      },
+    },
+  })
+);
+app.set("view engine", ".hbs");
+
 app.use(express.static("/public"));
 app.use("/public/css", express.static(__dirname + "/public/css"));
 app.use(bodyParser.urlencoded({ extended: true }));
+//add the property "activeRoute" to "app.locals" whenever route changes
+app.use(function (req, res, next) {
+  let route = req.baseUrl + req.path;
+  app.locals.activeRoute = route == "/" ? "/" : route.replace(/\/$/, "");
+  next();
+});
 
 app.get("/", function (req, res) {
-  res.sendFile(path.join(__dirname, "/views/home.html"));
+  res.render("home");
 });
 
 app.get("/about", function (req, res) {
-  res.sendFile(path.join(__dirname, "/views/about.html"));
+  res.render("about");
 });
 
 //updated route to support optional filters
@@ -59,22 +103,22 @@ app.get("/employees", function (req, res) {
   try {
     if (status)
       dataService.getEmployeesByStatus(status).then((data) => {
-        res.json(data);
+        res.render("employees", { employees: data });
       });
     else if (department)
       dataService.getEmployeesByDepartment(department).then((data) => {
-        res.json(data);
+        res.render("employees", { employees: data });
       });
     else if (manager)
       dataService.getEmployeesByManager(manager).then((data) => {
-        res.json(data);
+        res.render("employees", { employees: data });
       });
     else
       dataService.getAllEmployees().then((data) => {
-        res.json(data);
+        res.render("employees", { employees: data });
       });
   } catch (error) {
-    console.log(error);
+    res.render({ message: "no results" });
   }
 });
 
@@ -82,27 +126,28 @@ app.get("/employees", function (req, res) {
 app.get("/employee/:value", function (req, res) {
   try {
     dataService.getEmployeeByNum(req.params.value).then((data) => {
-      res.json(data);
+      res.render("employee", { employee: data });
     });
   } catch (error) {
-    console.log(error);
-  }
-});
-
-app.get("/managers", function (req, res) {
-  try {
-    dataService.getManagers().then((data) => {
-      res.json(data);
-    });
-  } catch (error) {
-    console.log(error);
+    res.render("employee", { message: "no results" });
   }
 });
 
 app.get("/departments", function (req, res) {
   try {
     dataService.getDepartment().then((data) => {
-      res.json(data);
+      res.render("departments", { departments: data });
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+//once employee data is updated, it will show all the data from form
+app.post("/employee/update", (req, res) => {
+  try {
+    dataService.updateEmployee(req.body).then(() => {
+      res.redirect("/employees");
     });
   } catch (error) {
     console.log(error);
@@ -115,13 +160,13 @@ which contains the contents of the "./public/images/uploaded" directory as an ar
 app.get("/images", function (req, res) {
   fs.readdir("./public/images/uploaded", function (err, files) {
     if (err) console.log(err);
-    else res.json({ images: files });
+    else res.render("images", { images: files });
   });
 });
 
 //add employees
 app.get("/employees/add", function (req, res) {
-  res.sendFile(path.join(__dirname, "/views/addEmployee.html"));
+  res.render("addEmployee");
 });
 app.post("/employees/add", function (req, res) {
   dataService.addEmployee(req.body).then(() => {
@@ -131,7 +176,7 @@ app.post("/employees/add", function (req, res) {
 
 //add images
 app.get("/images/add", function (req, res) {
-  res.sendFile(path.join(__dirname, "/views/addImage.html"));
+  res.render("addImage");
 });
 app.post("/images/add", upload.single("imageFile"), function (req, res) {
   res.redirect("/images");
@@ -139,7 +184,7 @@ app.post("/images/add", upload.single("imageFile"), function (req, res) {
 
 //404 page
 app.use((req, res) => {
-  res.status(404).sendFile(path.join(__dirname, "/views/404page.html"));
+  res.status(404).render("404page", { layout: false });
 });
 
 dataService

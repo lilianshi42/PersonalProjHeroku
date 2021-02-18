@@ -91,3 +91,17 @@ module.exports.getEmployeeByNum = function (empNum) {
     else resolve(foundEmp);
   });
 };
+
+module.exports.updateEmployee = function (employeeData) {
+  return new Promise((resolve, reject) => {
+    let found = false;
+    for (let i = 0; i < employees.length && !found; i++) {
+      if (employees[i].employeeNum == employeeData.employeeNum) {
+        employees[i] = employeeData;
+        found = true;
+      }
+    }
+    if (!found) reject("no results returned");
+    else resolve();
+  });
+};
