@@ -1,27 +1,61 @@
 body {
-    background-color: rgb(253, 239, 237);
+  background-color: #41444b;
 }
-.container-fluid{
-    background-color:ivory;
+.container-fluid {
+  background-color: #f6f4e6;
 }
-.navbar-brand{
-    font-family: 'Fahkwang', sans-serif;
-    font-weight: bold;
+.navbar-brand {
+  font-family: "Fahkwang", sans-serif;
+  font-weight: bold;
 }
-li{
-    font-family: 'Raleway', sans-serif;
-    font-size: 1.2em;
+li {
+  font-family: "Raleway", sans-serif;
+  font-size: 1.15em;
 }
-h2{
-    font-family: 'Montserrat Subrayada', sans-serif;
-    font-weight: bold;
-    color: rgb(194, 120, 112);
+h2 {
+  font-family: "Montserrat Subrayada", sans-serif;
+  font-weight: bold;
+  color: #fddb3a;
 }
-p{
-    font-family: 'Raleway', sans-serif;
-    color: darkslategrey;
+p {
+  font-family: "Raleway", sans-serif;
+  color: #f6f4e6;
 }
-aside p{
-    font-size: 1.2em;
-    font-style: italic;
+aside p {
+  font-size: 1.2em;
+  font-style: italic;
+}
+form {
+  font-family: "Raleway", sans-serif;
+  color: #f6f4e6;
+}
+legend {
+  font-family: "Raleway", sans-serif;
+  color: #f6f4e6;
+}
+table thead {
+  font-family: "Raleway", sans-serif;
+  color: #f6f4e6;
+  font-size: 1.15em;
+}
+table tbody {
+  color: #f6f4e6;
+}
+a:link {
+  color: #90f2ff;
+  text-decoration: none;
+}
+a:visited {
+  color: #eab4f8;
+  background-color: transparent;
+  text-decoration: none;
+}
+a:hover {
+  color: #fddb3a;
+  background-color: transparent;
+  text-decoration: underline;
+}
+strong {
+  font-family: "Raleway", sans-serif;
+  color: #f6f4e6;
 }
