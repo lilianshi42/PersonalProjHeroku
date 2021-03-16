@@ -5,20 +5,22 @@
             <strong>{{message}}</strong>
             {{/unless}}
         </div>
-        <h2>Departments</h2>
+        <h2>Departments<a href="/departments/add" class="btn btn-success pull-right">Add New Department</a></h2>
         <hr />
         <table class="table table-responsive">
             <thead>
                 <tr>
                     <th>Department&nbsp;Number</th>
                     <th>Department&nbsp;Name</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 {{#each departments}}
                 <tr>
-                    <th><a href="/employees?department={{departmentId}}">{{departmentId}}</a></th>
-                    <th><a href="/employees?department={{departmentId}}">{{departmentName}}</a></th>
+                    <td><a href="/employees?department={{departmentId}}">{{departmentId}}</a></td>
+                    <td><a href="/department/{{departmentId}}">{{departmentName}}</a></td>
+                    <td><a href="/departments/delete/{{departmentId}}" class="btn btn-danger">remove</a></td>
                 </tr>
                 {{/each}}
             </tbody>
