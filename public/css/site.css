@@ -57,5 +57,10 @@ a:hover {
 }
 strong {
   font-family: "Raleway", sans-serif;
-  color: #f6f4e6;
+}
+.alert-danger{
+  color: red;
+}
+.alert-success{
+  color:green;
 }
